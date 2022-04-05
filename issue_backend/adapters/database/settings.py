@@ -4,8 +4,8 @@ from pydantic import BaseSettings
 class Settings(BaseSettings):
     user = 'postgres'
     password = 'postgres'
-    host = 'db_books'
-    port = '5432'
+    host = 'db_issues'
+    port = '5433'
     database = 'bootcamp'
 
     DB_URL: str = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}"
