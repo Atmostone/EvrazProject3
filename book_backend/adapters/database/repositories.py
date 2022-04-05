@@ -11,8 +11,10 @@ from application.dataclasses import Book
 @component
 class BooksRepo(BaseRepository, BooksRepo):
     def get_books(self) -> Optional[Book]:
-        print('Repository!')
         query = select(Book)
         return self.session.execute(query).scalars().all()
 
-
+    def add_book(self, book):
+        self.session.add(book)
+        self.session.flush()
+        return book.id

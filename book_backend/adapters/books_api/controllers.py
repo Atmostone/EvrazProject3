@@ -9,9 +9,17 @@ class Book:
     book: services.Book
 
     @join_point
-    def on_get_get_books(self, request, response):
+    def on_get_books(self, request, response):
         books = self.book.get_books()
-        print('Controller!')
         response.media = {
-            'books': books,
+            'books': str(books),
+        }
+
+    @join_point
+    def on_post_add_book(self, request, response):
+        self.book.add_book(
+            **request.media,
+        )
+        response.media = {
+            'message': 'Книга была создана'
         }

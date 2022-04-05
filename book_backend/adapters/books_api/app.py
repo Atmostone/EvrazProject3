@@ -27,7 +27,7 @@ def create_app(
 
     middleware = [cors_middleware]
 
-    app = App(middleware=middleware, prefix='')
+    app = App(middleware=middleware, prefix='/api')
 
     app.register(controllers.Book(book=book))
 

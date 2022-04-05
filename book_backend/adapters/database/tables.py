@@ -20,7 +20,7 @@ metadata = MetaData(naming_convention=naming_convention)
 book = Table(
     'book',
     metadata,
-    Column('id', Integer, primary_key=True),
+    Column('id', Integer, primary_key=True, autoincrement=True),
     Column('title', String, nullable=False),
     Column('text', String, nullable=False),
 )
