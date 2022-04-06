@@ -12,11 +12,12 @@ services:
       - db_books
     networks:
       - mynetwork
+
   web-issues:
     build:
       context: ./issue_backend
       dockerfile: Dockerfile
-    command: gunicorn composites.issue_api:app --bind 0.0.0.0:8000
+    command: gunicorn composites.issue_api:app --bind 0.0.0.0:8001
     volumes:
       - static_volume:/home/app/web/staticfiles
     expose:
@@ -25,22 +26,25 @@ services:
       - db_issues
     networks:
       - mynetwork
+
   db_books:
     image: postgres:13.0-alpine
     env_file:
       - .env.db
     ports:
-      - 5432:5432
+      - 5555:5432
     networks:
       - mynetwork
+
   db_issues:
     image: postgres:13.0-alpine
     env_file:
       - .env.db
     ports:
-      - 5433:5433
+      - 4444:5432
     networks:
       - mynetwork
+
   nginx:
     build: ./gateway
     volumes:
@@ -61,6 +65,8 @@ services:
       - RABBITMQ_DEFAULT_PASS=password
     volumes:
       - "rabbitmq_data:/data"
+    networks:
+      - mynetwork
 networks:
   mynetwork:
     driver: bridge

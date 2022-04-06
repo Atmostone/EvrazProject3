@@ -3,6 +3,7 @@ from typing import Optional
 from classic.app import DTO
 from classic.aspects import PointCut
 from classic.components import component
+from classic.messaging import Message, Publisher
 from pydantic import validate_arguments
 
 from application import interfaces, dataclasses
@@ -19,6 +20,7 @@ class BookInfo(DTO):
 @component
 class Book:
     books_repo: interfaces.BooksRepo
+    publisher: Publisher
 
     @join_point
     @validate_arguments
@@ -33,3 +35,8 @@ class Book:
     def add_book(self, title, text):
         book = BookInfo(title=title, text=text).create_obj(dataclasses.Book)
         self.books_repo.add_book(book)
+
+        if self.publisher:
+            self.publisher.plan(
+                Message('test', {'test': 1})
+            )

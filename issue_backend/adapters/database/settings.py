@@ -5,7 +5,7 @@ class Settings(BaseSettings):
     user = 'postgres'
     password = 'postgres'
     host = 'db_issues'
-    port = '5433'
+    port = '5432'
     database = 'bootcamp'
 
     DB_URL: str = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{database}"
