@@ -8,6 +8,7 @@ from classic.messaging import Message, Publisher
 from pydantic import validate_arguments
 
 from application import interfaces, dataclasses
+from application.exceptions import DoesNotExists
 
 join_points = PointCut()
 join_point = join_points.join_point
@@ -28,7 +29,24 @@ class User:
     def get_users(self):
         users = self.users_repo.get_users()
         if not users:
-            raise Exception
+            raise DoesNotExists
+        return users
+
+    @join_point
+    @validate_arguments
+    def delete_user(self, id):
+        try:
+            self.users_repo.get_user(id)
+        except Exception:
+            raise DoesNotExists
+        self.users_repo.delete_user(id)
+
+    @join_point
+    @validate_arguments
+    def get_user(self, id):
+        users = self.users_repo.get_user(id)
+        if not users:
+            raise DoesNotExists
         return users
 
     @join_point

@@ -10,9 +10,12 @@ class User:
 
     @join_point
     def on_get_users(self, request, response):
-        users = self.гыук.get_users()
+        users = self.user.get_users()
         response.media = {
-            'users': str(users),
+            'users': [{
+                'id': user.id,
+                'username': user.username,
+            } for user in users],
         }
 
     @join_point
@@ -22,4 +25,23 @@ class User:
         )
         response.media = {
             'message': 'Пользователь был создан'
+        }
+
+    @join_point
+    def on_get_info(self, request, response):
+        user = self.user.get_user(
+            **request.media,
+        )
+        response.media = {
+            'book': {
+                'id': user.id,
+                'username': user.username,
+            },
+        }
+
+    @join_point
+    def on_post_delete_user(self, request, response):
+        self.user.delete_user(**request.media)
+        response.media = {
+            'message': 'Пользователь был удалён'
         }

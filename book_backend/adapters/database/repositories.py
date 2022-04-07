@@ -23,3 +23,7 @@ class BooksRepo(BaseRepository, BooksRepo):
         self.session.add(book)
         self.session.flush()
         return book.id
+
+    def delete_book(self, id):
+        query = select(Book).where(Book.id == id)
+        self.session.delete(self.session.execute(query).scalars().one_or_none())

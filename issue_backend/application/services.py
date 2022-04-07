@@ -7,6 +7,7 @@ from classic.components import component
 from pydantic import validate_arguments
 
 from application import interfaces, dataclasses
+from application.exceptions import DoesNotExists
 
 join_points = PointCut()
 join_point = join_points.join_point
@@ -33,5 +34,5 @@ class Issue:
     def get_issues(self):
         issues = self.issues_repo.get_issues()
         if not issues:
-            raise Exception
+            raise DoesNotExists
         return issues

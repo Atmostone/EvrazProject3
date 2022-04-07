@@ -12,3 +12,11 @@ class UsersRepo(ABC):
     @abstractmethod
     def add_user(self, user):
         ...
+
+    @abstractmethod
+    def get_user(self, id) -> Optional[User]:
+        ...
+
+    @abstractmethod
+    def delete_user(self, id):
+        ...

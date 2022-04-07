@@ -1,3 +1,5 @@
+import json
+
 from classic.components import component
 
 from .join_points import join_point
@@ -11,9 +13,12 @@ class Book:
     @join_point
     def on_get_books(self, request, response):
         books = self.book.get_books()
-        response.media = {
-            'books': str(books),
-        }
+        response.media = [{
+                'id': book.id,
+                'title': book.title,
+                'description': book.description,
+                'user_id': book.user_id
+            } for book in books]
 
     @join_point
     def on_post_add_book(self, request, response):
@@ -30,7 +35,10 @@ class Book:
             **request.media,
         )
         response.media = {
-            'book': str(book),
+            'id': book.id,
+            'title': book.title,
+            'description': book.description,
+            'user_id': book.user_id
         }
 
     @join_point
@@ -49,4 +57,11 @@ class Book:
         )
         response.media = {
             'message': 'Книга возвращена'
+        }
+
+    @join_point
+    def on_post_delete_book(self, request, response):
+        self.book.delete_book(**request.media)
+        response.media = {
+            'message': 'Книга была удалена'
         }

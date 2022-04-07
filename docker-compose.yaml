@@ -68,6 +68,8 @@ services:
     ports:
       - 1337:80
     restart: unless-stopped
+    depends_on:
+      - web-issues
 
 
   rabbitmq:

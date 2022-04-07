@@ -8,6 +8,7 @@ from classic.messaging import Message, Publisher
 from pydantic import validate_arguments
 
 from application import interfaces, dataclasses
+from application.exceptions import DoesNotExists
 
 join_points = PointCut()
 join_point = join_points.join_point
@@ -30,7 +31,7 @@ class Book:
     def get_books(self):
         books = self.books_repo.get_books()
         if not books:
-            raise Exception
+            raise DoesNotExists
         return books
 
     @join_point
@@ -38,8 +39,17 @@ class Book:
     def get_book(self, id):
         book = self.books_repo.get_book(id)
         if not book:
-            raise Exception
+            raise DoesNotExists
         return book
+
+    @join_point
+    @validate_arguments
+    def delete_book(self, id):
+        try:
+            self.books_repo.get_book(id)
+        except Exception:
+            raise DoesNotExists
+        self.books_repo.delete_book(id)
 
     @join_point
     @validate_arguments
@@ -59,10 +69,10 @@ class Book:
         try:
             book = self.books_repo.get_book(id)
         except Exception:
-            raise Exception
+            raise DoesNotExists
         else:
-            chat_info = BookInfo(id=id, title=book.title, description=book.description, user_id=user_id)
-            chat_info.populate_obj(book)
+            book_info = BookInfo(id=id, title=book.title, description=book.description, user_id=user_id)
+            book_info.populate_obj(book)
 
             if self.publisher:
                 self.publisher.plan(
@@ -77,10 +87,10 @@ class Book:
         try:
             book = self.books_repo.get_book(id)
         except Exception:
-            raise Exception
+            raise DoesNotExists
         else:
-            chat_info = BookInfo(id=id, title=book.title, description=book.description, user_id=None)
-            chat_info.populate_obj(book)
+            book_info = BookInfo(id=id, title=book.title, description=book.description, user_id=None)
+            book_info.populate_obj(book)
 
             if self.publisher:
                 self.publisher.plan(

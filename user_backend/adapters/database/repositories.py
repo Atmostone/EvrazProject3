@@ -14,7 +14,15 @@ class UsersRepo(BaseRepository, UsersRepo):
         query = select(User)
         return self.session.execute(query).scalars().all()
 
+    def get_user(self, id) -> Optional[User]:
+        query = select(User).where(User.id == id)
+        return self.session.execute(query).scalars().one_or_none()
+
     def add_user(self, user):
         self.session.add(user)
         self.session.flush()
         return user.id
+
+    def delete_user(self, id):
+        query = select(User).where(User.id == id)
+        self.session.delete(self.session.execute(query).scalars().one_or_none())

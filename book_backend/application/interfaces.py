@@ -17,3 +17,7 @@ class BooksRepo(ABC):
     def add_book(self, book):
         ...
 
+    @abstractmethod
+    def delete_book(self, id):
+        ...
+
