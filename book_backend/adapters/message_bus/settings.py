@@ -1,10 +1,16 @@
+import os
 from typing import Optional
 
 from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    BROKER_URL = "amqp://user:password@rabbitmq:5672//"
+    user = os.environ['RABBIT_USER']
+    password = os.environ['RABBIT_PASSWORD']
+    host = os.environ['RABBIT_HOST']
+    port = os.environ['RABBIT_PORT']
+
+    BROKER_URL = f"amqp://{user}:{password}@{host}:{port}//"
 
     LOGGING_LEVEL: str = 'INFO'
 

@@ -4,6 +4,8 @@ services:
       context: ./book_backend
       dockerfile: Dockerfile
     command: gunicorn composites.book_api:app --bind 0.0.0.0:8000
+    env_file:
+      - envs/.env.books
     restart: unless-stopped
     depends_on:
       - db_books
@@ -13,6 +15,8 @@ services:
       context: ./user_backend
       dockerfile: Dockerfile
     command: gunicorn composites.user_api:app --bind 0.0.0.0:8002
+    env_file:
+      - envs/.env.users
     restart: unless-stopped
     depends_on:
       - db_users
@@ -22,6 +26,8 @@ services:
       context: ./issue_backend
       dockerfile: Dockerfile
     command: gunicorn composites.issue_api:app --bind 0.0.0.0:8001
+    env_file:
+      - envs/.env.issues
     restart: unless-stopped
     depends_on:
       - db_issues
@@ -31,15 +37,16 @@ services:
       context: ./issue_backend
       dockerfile: Dockerfile
     command: python3 -m composites.consumer
+    env_file:
+      - envs/.env.issues
     restart: unless-stopped
     depends_on:
       - db_issues
 
-
   db_books:
     image: postgres:13.0-alpine
     env_file:
-      - .env.db
+      - envs/.env.db
     ports:
       - 5555:5432
     depends_on:
@@ -48,7 +55,7 @@ services:
   db_users:
     image: postgres:13.0-alpine
     env_file:
-      - .env.db
+      - envs/.env.db
     ports:
       - 6666:5432
     depends_on:
@@ -57,7 +64,7 @@ services:
   db_issues:
     image: postgres:13.0-alpine
     env_file:
-      - .env.db
+      - envs/.env.db
     ports:
       - 4444:5432
     depends_on:
@@ -77,9 +84,8 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=user
-      - RABBITMQ_DEFAULT_PASS=password
+    env_file:
+      - envs/.env.rabbit
     volumes:
       - "rabbitmq_data:/data"
 
