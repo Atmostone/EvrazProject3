@@ -1,6 +1,6 @@
 import pytest
 
-from user_backend.application.services import User
+from application.services import User
 
 
 @pytest.fixture(scope='function')

@@ -2,7 +2,7 @@ from datetime import datetime
 
 import pytest
 
-from issue_backend.application.services import Issue
+from application.services import Issue
 
 
 @pytest.fixture(scope='function')

@@ -2,7 +2,7 @@ from datetime import datetime
 
 import pytest
 
-from issue_backend.application import dataclasses
+from application import dataclasses
 
 
 @pytest.fixture

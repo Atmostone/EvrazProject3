@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from issue_backend.application import interfaces
+from application import interfaces
 
 
 @pytest.fixture(scope='function')
