@@ -35,6 +35,14 @@ class Book:
 
     @join_point
     @validate_arguments
+    def get_book(self, id):
+        book = self.books_repo.get_book(id)
+        if not book:
+            raise Exception
+        return book
+
+    @join_point
+    @validate_arguments
     def add_book(self, title, description):
         book = BookInfo(title=title, description=description).create_obj(dataclasses.Book)
         self.books_repo.add_book(book)
@@ -44,3 +52,40 @@ class Book:
                 Message('test', {'event': 'add_book', 'created': datetime.now(),
                                  'book_id': book.id, 'user_id': None})
             )
+
+    @join_point
+    @validate_arguments
+    def take_book(self, id, user_id):
+        try:
+            book = self.books_repo.get_book(id)
+        except Exception:
+            raise Exception
+        else:
+            chat_info = BookInfo(id=id, title=book.title, description=book.description, user_id=user_id)
+            chat_info.populate_obj(book)
+
+            if self.publisher:
+                self.publisher.plan(
+                    Message('test', {'event': 'take_book', 'created': datetime.now(),
+                                     'book_id': id, 'user_id': user_id})
+                )
+            return book
+
+    @join_point
+    @validate_arguments
+    def return_book(self, id):
+        try:
+            book = self.books_repo.get_book(id)
+        except Exception:
+            raise Exception
+        else:
+            chat_info = BookInfo(id=id, title=book.title, description=book.description, user_id=None)
+            chat_info.populate_obj(book)
+
+            if self.publisher:
+                self.publisher.plan(
+                    Message('test', {'event': 'take_book', 'created': datetime.now(),
+                                     'book_id': id, 'user_id': None})
+                )
+
+            return book

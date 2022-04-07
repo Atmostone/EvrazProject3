@@ -42,6 +42,8 @@ services:
       - .env.db
     ports:
       - 5555:5432
+    depends_on:
+      - rabbitmq
 
   db_users:
     image: postgres:13.0-alpine
@@ -49,6 +51,8 @@ services:
       - .env.db
     ports:
       - 6666:5432
+    depends_on:
+      - rabbitmq
 
   db_issues:
     image: postgres:13.0-alpine
@@ -56,13 +60,15 @@ services:
       - .env.db
     ports:
       - 4444:5432
+    depends_on:
+      - rabbitmq
 
   nginx:
     build: ./gateway
     ports:
       - 1337:80
-    depends_on:
-      - web
+    restart: unless-stopped
+
 
   rabbitmq:
     image: "rabbitmq:3-management"

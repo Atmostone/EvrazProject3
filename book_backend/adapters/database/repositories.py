@@ -14,6 +14,11 @@ class BooksRepo(BaseRepository, BooksRepo):
         query = select(Book)
         return self.session.execute(query).scalars().all()
 
+    def get_book(self, id) -> Optional[Book]:
+        query = select(Book).where(Book.id == id)
+        return self.session.execute(query).scalars().one_or_none()
+
+
     def add_book(self, book):
         self.session.add(book)
         self.session.flush()

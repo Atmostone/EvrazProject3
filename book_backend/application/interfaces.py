@@ -10,5 +10,10 @@ class BooksRepo(ABC):
         ...
 
     @abstractmethod
+    def get_book(self, id) -> Optional[Book]:
+        ...
+
+    @abstractmethod
     def add_book(self, book):
         ...
+

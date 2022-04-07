@@ -23,3 +23,30 @@ class Book:
         response.media = {
             'message': 'Книга была создана'
         }
+
+    @join_point
+    def on_get_info(self, request, response):
+        book = self.book.get_book(
+            **request.media,
+        )
+        response.media = {
+            'book': str(book),
+        }
+
+    @join_point
+    def on_post_take_book(self, request, response):
+        self.book.take_book(
+            **request.media,
+        )
+        response.media = {
+            'message': 'Книга взята'
+        }
+
+    @join_point
+    def on_post_return_book(self, request, response):
+        self.book.return_book(
+            **request.media,
+        )
+        response.media = {
+            'message': 'Книга возвращена'
+        }
