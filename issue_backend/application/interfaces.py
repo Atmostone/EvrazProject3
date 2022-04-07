@@ -5,4 +5,11 @@ from application.dataclasses import Issue
 
 
 class IssueRepo(ABC):
-    pass
+    @abstractmethod
+    def add_issue(self, issue):
+        ...
+    @abstractmethod
+    def get_issues(self):
+        ...
+
+

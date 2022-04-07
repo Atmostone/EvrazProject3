@@ -10,4 +10,11 @@ from application.dataclasses import Issue
 
 @component
 class IssueRepo(BaseRepository, IssueRepo):
-    pass
+    def add_issue(self, issue):
+        self.session.add(issue)
+        self.session.commit()
+        return issue.id
+
+    def get_issues(self) -> Optional[Issue]:
+        query = select(Issue)
+        return self.session.execute(query).scalars().all()

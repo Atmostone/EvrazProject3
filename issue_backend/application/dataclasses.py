@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 import attr
@@ -5,6 +6,8 @@ import attr
 
 @attr.dataclass
 class Issue:
-    title: str
-    text: str
+    event: str
+    created: datetime
     id: Optional[int] = None
+    book_id: Optional[int] = None
+    user_id: Optional[int] = None

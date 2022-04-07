@@ -22,5 +22,7 @@ book = Table(
     metadata,
     Column('id', Integer, primary_key=True, autoincrement=True),
     Column('title', String, nullable=False),
-    Column('text', String, nullable=False),
+    Column('description', String, nullable=False),
+    Column('user_id', Integer, nullable=True),
+
 )

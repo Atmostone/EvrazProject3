@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 from classic.app import DTO
@@ -15,7 +16,9 @@ join_point = join_points.join_point
 class BookInfo(DTO):
     id: Optional[int]
     title: str
-    text: str
+    description: str
+    user_id: Optional[int]
+
 
 @component
 class Book:
@@ -32,11 +35,12 @@ class Book:
 
     @join_point
     @validate_arguments
-    def add_book(self, title, text):
-        book = BookInfo(title=title, text=text).create_obj(dataclasses.Book)
+    def add_book(self, title, description):
+        book = BookInfo(title=title, description=description).create_obj(dataclasses.Book)
         self.books_repo.add_book(book)
 
         if self.publisher:
             self.publisher.plan(
-                Message('test', {'test': 1})
+                Message('test', {'event': 'add_book', 'created': datetime.now(),
+                                 'book_id': book.id, 'user_id': None})
             )

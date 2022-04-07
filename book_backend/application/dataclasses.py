@@ -6,5 +6,6 @@ import attr
 @attr.dataclass
 class Book:
     title: str
-    text: str
+    description: str
+    user_id: Optional[int] = None
     id: Optional[int] = None
