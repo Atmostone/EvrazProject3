@@ -4,7 +4,7 @@ import pytest
 
 from classic.messaging import Publisher
 
-from book_backend.application import interfaces
+from application import interfaces
 
 
 @pytest.fixture(scope='function')

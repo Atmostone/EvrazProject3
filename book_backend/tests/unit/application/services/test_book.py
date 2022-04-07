@@ -1,6 +1,6 @@
 import pytest
 
-from book_backend.application.services import Book
+from application.services import Book
 
 
 @pytest.fixture(scope='function')

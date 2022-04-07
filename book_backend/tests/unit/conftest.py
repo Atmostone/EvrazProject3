@@ -1,6 +1,6 @@
 import pytest
 
-from book_backend.application import dataclasses
+from application import dataclasses
 
 
 @pytest.fixture
