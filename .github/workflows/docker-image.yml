@@ -12,8 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Docker-compose
-        run: docker-compose up -d
+      - name: Docker-build
+        run: docker-compose build
+
+      - name: Docker-run
+        run: docker-compose run
 
       - name: Books tests
         run: docker-compose run web-books python3 -m py.test -v
