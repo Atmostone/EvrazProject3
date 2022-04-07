@@ -8,6 +8,14 @@ services:
     depends_on:
       - db_books
 
+  web-users:
+    build:
+      context: ./user_backend
+      dockerfile: Dockerfile
+    command: gunicorn composites.user_api:app --bind 0.0.0.0:8002
+    restart: unless-stopped
+    depends_on:
+      - db_users
 
   web-issues:
     build:
@@ -28,15 +36,19 @@ services:
       - db_issues
 
 
-
-
-
   db_books:
     image: postgres:13.0-alpine
     env_file:
       - .env.db
     ports:
       - 5555:5432
+
+  db_users:
+    image: postgres:13.0-alpine
+    env_file:
+      - .env.db
+    ports:
+      - 6666:5432
 
   db_issues:
     image: postgres:13.0-alpine
