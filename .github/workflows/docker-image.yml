@@ -1,0 +1,25 @@
+name: Docker
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Docker-compose
+        run: docker-compose up -d
+
+      - name: Books tests
+        run: docker-compose run web-books python3 -m py.test -v
+
+      - name: Users tests
+        run: docker-compose run web-users python3 -m py.test -v
+
+      - name: Issues tests
+        run: docker-compose run web-issues python3 -m py.test -v
