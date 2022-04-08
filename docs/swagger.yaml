@@ -1,0 +1,151 @@
+openapi: 3.0.0
+info:
+  title: Project3
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:1337
+paths:
+  /api/book/books:
+    get:
+      tags:
+        - General
+      summary: get books
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/book/add_book:
+    post:
+      tags:
+        - General
+      summary: post add user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                title: Hello1
+                description: World2!
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/book/info:
+    get:
+      tags:
+        - General
+      summary: get 1 book
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/book/take_book:
+    post:
+      tags:
+        - General
+      summary: post take book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                id: 1
+                user_id: 2
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/book/return_book:
+    post:
+      tags:
+        - General
+      summary: post return book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                id: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/issue/issues:
+    get:
+      tags:
+        - General
+      summary: get issues
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/add_user:
+    post:
+      tags:
+        - General
+      summary: post add user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: Alex
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/info:
+    get:
+      tags:
+        - General
+      summary: get users
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/delete_user:
+    post:
+      tags:
+        - General
+      summary: post delete user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                id: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/book/delete_book:
+    post:
+      tags:
+        - General
+      summary: post delete book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                id: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
